@@ -125,8 +125,8 @@ function Logo() {
 
 function BookButton({ className = "" }: { className?: string }) {
   return (
-    <a
-      href="/book"
+    <Link
+      to="/book"
       className={
         "inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110 " +
         className
@@ -134,7 +134,7 @@ function BookButton({ className = "" }: { className?: string }) {
     >
       Book Appointment
       <ArrowRight className="h-4 w-4" />
-    </a>
+    </Link>
   );
 }
 
