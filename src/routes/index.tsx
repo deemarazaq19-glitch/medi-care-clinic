@@ -370,12 +370,12 @@ function Home() {
                   soon as today.
                 </p>
               </div>
-              <a
-                href="/book"
+              <Link
+                to="/book"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-primary transition hover:brightness-95 md:justify-self-end"
               >
                 Book Appointment <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
