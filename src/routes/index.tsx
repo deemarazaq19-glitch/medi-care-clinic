@@ -126,7 +126,7 @@ function Logo() {
 function BookButton({ className = "" }: { className?: string }) {
   return (
     <a
-      href="#book"
+      href="/book"
       className={
         "inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110 " +
         className
@@ -312,7 +312,7 @@ function Home() {
                   <p className="text-sm text-primary">{d.specialty}</p>
                   <div className="mt-5 flex items-center gap-3">
                     <a
-                      href="#book"
+                      href="/book"
                       className="inline-flex flex-1 items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:brightness-110"
                     >
                       Book Now
@@ -371,7 +371,7 @@ function Home() {
                 </p>
               </div>
               <a
-                href="#book"
+                href="/book"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-primary transition hover:brightness-95 md:justify-self-end"
               >
                 Book Appointment <ArrowRight className="h-4 w-4" />
