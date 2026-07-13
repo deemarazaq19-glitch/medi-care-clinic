@@ -159,10 +159,10 @@ function BookPage() {
                         key={d.id}
                         onClick={() => setDoctorId(d.id)}
                         className={cn(
-                          "flex flex-col items-start gap-3 rounded-2xl border bg-card p-5 text-left shadow-[var(--shadow-card)] transition",
+                          "flex flex-col items-start gap-3 rounded-2xl border bg-card p-5 text-left shadow-[var(--shadow-card)] transition-all duration-300",
                           selected
-                            ? "border-primary ring-2 ring-primary/30"
-                            : "border-border hover:border-primary/40 hover:-translate-y-0.5",
+                            ? "border-primary ring-2 ring-primary/30 -translate-y-0.5 shadow-[var(--shadow-soft)]"
+                            : "border-border hover:border-primary/40 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]",
                         )}
                       >
                         <span
