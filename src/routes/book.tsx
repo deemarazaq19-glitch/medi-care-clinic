@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/reveal";
 
 export const Route = createFileRoute("/book")({
   head: () => ({
@@ -158,17 +159,17 @@ function BookPage() {
                         key={d.id}
                         onClick={() => setDoctorId(d.id)}
                         className={cn(
-                          "flex flex-col items-start gap-3 rounded-2xl border bg-card p-5 text-left shadow-[var(--shadow-card)] transition",
+                          "flex flex-col items-start gap-3 rounded-2xl border bg-card p-5 text-left shadow-[var(--shadow-card)] transition-all duration-300",
                           selected
-                            ? "border-primary ring-2 ring-primary/30"
-                            : "border-border hover:border-primary/40 hover:-translate-y-0.5",
+                            ? "border-primary ring-2 ring-primary/30 -translate-y-0.5 shadow-[var(--shadow-soft)]"
+                            : "border-border hover:border-primary/40 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]",
                         )}
                       >
                         <span
                           className={cn(
-                            "grid h-10 w-10 place-items-center rounded-xl transition",
+                            "grid h-10 w-10 place-items-center rounded-xl transition-all duration-300",
                             selected
-                              ? "bg-primary text-primary-foreground"
+                              ? "bg-primary text-primary-foreground scale-110 rotate-6"
                               : "bg-primary-soft text-primary",
                           )}
                         >
@@ -236,13 +237,13 @@ function BookPage() {
                           disabled={s.booked}
                           onClick={() => setSlot(s.time)}
                           className={cn(
-                            "flex items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition",
+                            "flex items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition-all duration-200",
                             s.booked &&
                               "cursor-not-allowed border-border bg-muted text-muted-foreground line-through",
                             !s.booked && selected &&
-                              "border-primary bg-primary text-primary-foreground shadow-[var(--shadow-soft)]",
+                              "border-primary bg-primary text-primary-foreground shadow-[var(--shadow-soft)] scale-105",
                             !s.booked && !selected &&
-                              "border-border bg-card text-foreground hover:border-primary hover:text-primary",
+                              "border-border bg-card text-foreground hover:-translate-y-0.5 hover:border-primary hover:text-primary",
                           )}
                         >
                           <Clock className="h-3.5 w-3.5" />
@@ -342,14 +343,14 @@ function BookPage() {
                   type="submit"
                   disabled={!canConfirm}
                   className={cn(
-                    "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition",
+                    "group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300",
                     canConfirm
-                      ? "bg-primary text-primary-foreground shadow-[var(--shadow-soft)] hover:brightness-110"
+                      ? "bg-primary text-primary-foreground shadow-[var(--shadow-soft)] hover:-translate-y-0.5 hover:brightness-110 hover:shadow-lg active:translate-y-0"
                       : "cursor-not-allowed bg-muted text-muted-foreground",
                   )}
                 >
                   Confirm Appointment
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
                 <p className="mt-3 text-center text-xs text-muted-foreground">
                   You'll receive a confirmation email shortly.
@@ -373,15 +374,17 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-          {step}
-        </span>
-        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+    <Reveal as="section" delay={step * 80}>
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[var(--shadow-soft)] sm:p-8">
+        <div className="mb-5 flex items-center gap-3">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-[var(--shadow-soft)]">
+            {step}
+          </span>
+          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+        </div>
+        {children}
       </div>
-      {children}
-    </section>
+    </Reveal>
   );
 }
 
@@ -456,10 +459,10 @@ function ConfirmationCard({
   onReset: () => void;
 }) {
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-2xl animate-page-in">
       <div className="rounded-3xl border border-border bg-card p-8 text-center shadow-[var(--shadow-soft)] sm:p-12">
-        <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary-soft text-primary">
-          <CheckCircle2 className="h-9 w-9" />
+        <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary-soft text-primary animate-[page-in_0.6s_ease-out_both]">
+          <CheckCircle2 className="h-9 w-9 animate-pulse" />
         </span>
         <h2 className="mt-6 text-2xl font-bold tracking-tight sm:text-3xl">
           Appointment confirmed

@@ -36,6 +36,7 @@
   --shadow-card: 0 4px 20px -8px oklch(0.5 0.05 220 / 0.12);
   --animate-float: float 6s ease-in-out infinite;
   --animate-blob: blob 14s ease-in-out infinite;
+  --animate-page-in: page-in 0.45s ease-out both;
 }
 
 @keyframes float {
@@ -46,6 +47,10 @@
   0%, 100% { transform: translate(0, 0) scale(1); }
   33% { transform: translate(20px, -15px) scale(1.05); }
   66% { transform: translate(-15px, 10px) scale(0.97); }
+}
+@keyframes page-in {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
