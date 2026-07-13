@@ -154,7 +154,7 @@ function Home() {
               <li key={l.label}>
                 <a
                   href={l.href}
-                  className="text-sm font-medium text-muted-foreground transition hover:text-primary"
+                  className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-primary after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:origin-left hover:after:scale-x-100"
                 >
                   {l.label}
                 </a>
@@ -165,12 +165,40 @@ function Home() {
             <BookButton />
           </div>
           <button
-            className="grid h-10 w-10 place-items-center rounded-lg border border-border text-foreground md:hidden"
-            aria-label="Open menu"
+            onClick={() => setMenuOpen((v) => !v)}
+            className="grid h-10 w-10 place-items-center rounded-lg border border-border text-foreground transition hover:border-primary hover:text-primary md:hidden"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
           >
-            <Menu className="h-5 w-5" />
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </nav>
+        {/* Mobile menu */}
+        <div
+          className={
+            "grid overflow-hidden border-t border-border/60 bg-background/95 backdrop-blur transition-[grid-template-rows,opacity] duration-300 md:hidden " +
+            (menuOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")
+          }
+        >
+          <div className="min-h-0">
+            <ul className="flex flex-col gap-1 px-4 py-3 sm:px-6">
+              {navLinks.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block rounded-lg px-3 py-2.5 text-sm font-medium text-foreground transition hover:bg-primary-soft hover:text-primary"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+              <li className="pt-2">
+                <BookButton className="w-full" />
+              </li>
+            </ul>
+          </div>
+        </div>
       </header>
 
       {/* Hero */}
@@ -179,52 +207,67 @@ function Home() {
           aria-hidden
           className="absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_80%_10%,var(--primary-soft),transparent_60%)]"
         />
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:py-24 lg:px-8">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-24 -left-24 -z-10 h-72 w-72 rounded-full bg-primary-soft/60 blur-3xl animate-blob"
+        />
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-14 sm:gap-12 sm:px-6 sm:py-16 lg:grid-cols-2 lg:gap-16 lg:py-24 lg:px-8">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-accent-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-              Trusted care, since 2005
-            </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Your Health,{" "}
-              <span className="text-primary">Our Priority</span>
-            </h1>
-            <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-              At MediCare Clinic we combine compassionate doctors, modern
-              facilities, and simple online booking so quality healthcare fits
-              easily into your life.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <BookButton />
-              <a
-                href="#services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-foreground transition hover:text-primary"
-              >
-                Explore services <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
-            <dl className="mt-10 grid max-w-md grid-cols-3 gap-6">
-              {[
-                { k: "50+", v: "Specialists" },
-                { k: "25k", v: "Happy patients" },
-                { k: "4.9★", v: "Patient rating" },
-              ].map((s) => (
-                <div key={s.v}>
-                  <dt className="text-2xl font-bold text-foreground">{s.k}</dt>
-                  <dd className="text-xs text-muted-foreground">{s.v}</dd>
-                </div>
-              ))}
-            </dl>
+            <Reveal>
+              <span className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-accent-foreground">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                Trusted care, since 2005
+              </span>
+            </Reveal>
+            <Reveal delay={80}>
+              <h1 className="mt-5 text-[2rem] font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                Your Health,{" "}
+                <span className="text-primary">Our Priority</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={160}>
+              <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
+                At MediCare Clinic we combine compassionate doctors, modern
+                facilities, and simple online booking so quality healthcare fits
+                easily into your life.
+              </p>
+            </Reveal>
+            <Reveal delay={240}>
+              <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+                <BookButton className="w-full sm:w-auto" />
+                <a
+                  href="#services"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary sm:border-0 sm:bg-transparent sm:px-0 sm:py-0"
+                >
+                  Explore services
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={320}>
+              <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 sm:gap-6">
+                {[
+                  { k: "50+", v: "Specialists" },
+                  { k: "25k", v: "Happy patients" },
+                  { k: "4.9★", v: "Patient rating" },
+                ].map((s) => (
+                  <div key={s.v}>
+                    <dt className="text-xl font-bold text-foreground sm:text-2xl">{s.k}</dt>
+                    <dd className="text-xs text-muted-foreground">{s.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
           </div>
-          <div className="relative">
+          <Reveal delay={200} className="relative">
             <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-primary-soft/70 blur-2xl" />
-            <div className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-[var(--shadow-soft)]">
+            <div className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-[var(--shadow-soft)] animate-float">
               <img
                 src={heroDoctor}
                 alt="Smiling doctor at MediCare Clinic"
                 width={1200}
                 height={1200}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
               />
             </div>
             <div className="absolute -bottom-6 -left-4 hidden items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:flex">
@@ -236,9 +279,10 @@ function Home() {
                 <p className="text-xs text-muted-foreground">Today · 3:30 PM</p>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
+
 
       {/* Services */}
       <section id="services" className="py-20 lg:py-28">
