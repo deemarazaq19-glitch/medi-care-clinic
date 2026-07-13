@@ -459,10 +459,10 @@ function ConfirmationCard({
   onReset: () => void;
 }) {
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-2xl animate-page-in">
       <div className="rounded-3xl border border-border bg-card p-8 text-center shadow-[var(--shadow-soft)] sm:p-12">
-        <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary-soft text-primary">
-          <CheckCircle2 className="h-9 w-9" />
+        <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary-soft text-primary animate-[page-in_0.6s_ease-out_both]">
+          <CheckCircle2 className="h-9 w-9 animate-pulse" />
         </span>
         <h2 className="mt-6 text-2xl font-bold tracking-tight sm:text-3xl">
           Appointment confirmed
