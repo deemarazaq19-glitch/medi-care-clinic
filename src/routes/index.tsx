@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   Stethoscope,
   Heart,
@@ -16,7 +17,9 @@ import {
   Linkedin,
   ArrowRight,
   Menu,
+  X,
 } from "lucide-react";
+import { Reveal } from "@/components/reveal";
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import doctor1 from "@/assets/doctor-1.jpg";
 import doctor2 from "@/assets/doctor-2.jpg";
