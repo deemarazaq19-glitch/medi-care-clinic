@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   Stethoscope,
   Heart,
@@ -16,7 +17,9 @@ import {
   Linkedin,
   ArrowRight,
   Menu,
+  X,
 } from "lucide-react";
+import { Reveal } from "@/components/reveal";
 import heroDoctor from "@/assets/hero-doctor.jpg";
 import doctor1 from "@/assets/doctor-1.jpg";
 import doctor2 from "@/assets/doctor-2.jpg";
@@ -128,17 +131,18 @@ function BookButton({ className = "" }: { className?: string }) {
     <Link
       to="/book"
       className={
-        "inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-110 " +
+        "group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition-all duration-300 hover:brightness-110 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 " +
         className
       }
     >
       Book Appointment
-      <ArrowRight className="h-4 w-4" />
+      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
     </Link>
   );
 }
 
 function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navbar */}
@@ -150,7 +154,7 @@ function Home() {
               <li key={l.label}>
                 <a
                   href={l.href}
-                  className="text-sm font-medium text-muted-foreground transition hover:text-primary"
+                  className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-primary after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:origin-left hover:after:scale-x-100"
                 >
                   {l.label}
                 </a>
@@ -161,12 +165,40 @@ function Home() {
             <BookButton />
           </div>
           <button
-            className="grid h-10 w-10 place-items-center rounded-lg border border-border text-foreground md:hidden"
-            aria-label="Open menu"
+            onClick={() => setMenuOpen((v) => !v)}
+            className="grid h-10 w-10 place-items-center rounded-lg border border-border text-foreground transition hover:border-primary hover:text-primary md:hidden"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
           >
-            <Menu className="h-5 w-5" />
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </nav>
+        {/* Mobile menu */}
+        <div
+          className={
+            "grid overflow-hidden border-t border-border/60 bg-background/95 backdrop-blur transition-[grid-template-rows,opacity] duration-300 md:hidden " +
+            (menuOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")
+          }
+        >
+          <div className="min-h-0">
+            <ul className="flex flex-col gap-1 px-4 py-3 sm:px-6">
+              {navLinks.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block rounded-lg px-3 py-2.5 text-sm font-medium text-foreground transition hover:bg-primary-soft hover:text-primary"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+              <li className="pt-2">
+                <BookButton className="w-full" />
+              </li>
+            </ul>
+          </div>
+        </div>
       </header>
 
       {/* Hero */}
@@ -175,52 +207,67 @@ function Home() {
           aria-hidden
           className="absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_80%_10%,var(--primary-soft),transparent_60%)]"
         />
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:py-24 lg:px-8">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-24 -left-24 -z-10 h-72 w-72 rounded-full bg-primary-soft/60 blur-3xl animate-blob"
+        />
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-14 sm:gap-12 sm:px-6 sm:py-16 lg:grid-cols-2 lg:gap-16 lg:py-24 lg:px-8">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-accent-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-              Trusted care, since 2005
-            </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Your Health,{" "}
-              <span className="text-primary">Our Priority</span>
-            </h1>
-            <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-              At MediCare Clinic we combine compassionate doctors, modern
-              facilities, and simple online booking so quality healthcare fits
-              easily into your life.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <BookButton />
-              <a
-                href="#services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-foreground transition hover:text-primary"
-              >
-                Explore services <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
-            <dl className="mt-10 grid max-w-md grid-cols-3 gap-6">
-              {[
-                { k: "50+", v: "Specialists" },
-                { k: "25k", v: "Happy patients" },
-                { k: "4.9★", v: "Patient rating" },
-              ].map((s) => (
-                <div key={s.v}>
-                  <dt className="text-2xl font-bold text-foreground">{s.k}</dt>
-                  <dd className="text-xs text-muted-foreground">{s.v}</dd>
-                </div>
-              ))}
-            </dl>
+            <Reveal>
+              <span className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-accent-foreground">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                Trusted care, since 2005
+              </span>
+            </Reveal>
+            <Reveal delay={80}>
+              <h1 className="mt-5 text-[2rem] font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                Your Health,{" "}
+                <span className="text-primary">Our Priority</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={160}>
+              <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
+                At MediCare Clinic we combine compassionate doctors, modern
+                facilities, and simple online booking so quality healthcare fits
+                easily into your life.
+              </p>
+            </Reveal>
+            <Reveal delay={240}>
+              <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+                <BookButton className="w-full sm:w-auto" />
+                <a
+                  href="#services"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary sm:border-0 sm:bg-transparent sm:px-0 sm:py-0"
+                >
+                  Explore services
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={320}>
+              <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 sm:gap-6">
+                {[
+                  { k: "50+", v: "Specialists" },
+                  { k: "25k", v: "Happy patients" },
+                  { k: "4.9★", v: "Patient rating" },
+                ].map((s) => (
+                  <div key={s.v}>
+                    <dt className="text-xl font-bold text-foreground sm:text-2xl">{s.k}</dt>
+                    <dd className="text-xs text-muted-foreground">{s.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
           </div>
-          <div className="relative">
+          <Reveal delay={200} className="relative">
             <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-primary-soft/70 blur-2xl" />
-            <div className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-[var(--shadow-soft)]">
+            <div className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-[var(--shadow-soft)] animate-float">
               <img
                 src={heroDoctor}
                 alt="Smiling doctor at MediCare Clinic"
                 width={1200}
                 height={1200}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
               />
             </div>
             <div className="absolute -bottom-6 -left-4 hidden items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:flex">
@@ -232,14 +279,15 @@ function Home() {
                 <p className="text-xs text-muted-foreground">Today · 3:30 PM</p>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
+
       {/* Services */}
-      <section id="services" className="py-20 lg:py-28">
+      <section id="services" className="py-16 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal className="mx-auto max-w-2xl text-center">
             <p className="text-sm font-semibold uppercase tracking-widest text-primary">
               Our services
             </p>
@@ -250,136 +298,146 @@ function Home() {
               A full spectrum of medical services delivered by specialists who
               genuinely listen.
             </p>
-          </div>
-          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((s) => (
-              <article
-                key={s.title}
-                className="group rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition hover:-translate-y-1 hover:border-primary/40"
-              >
-                <span className="grid h-12 w-12 place-items-center rounded-xl bg-primary-soft text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
-                  <s.icon className="h-6 w-6" />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold text-foreground">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {s.desc}
-                </p>
-              </article>
+          </Reveal>
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+            {services.map((s, i) => (
+              <Reveal key={s.title} delay={i * 90} as="article">
+                <div className="group h-full rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-[var(--shadow-soft)]">
+                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-primary-soft text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                    <s.icon className="h-6 w-6" />
+                  </span>
+                  <h3 className="mt-5 text-lg font-semibold text-foreground">
+                    {s.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {s.desc}
+                  </p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Doctors */}
-      <section id="doctors" className="bg-secondary/60 py-20 lg:py-28">
+      <section id="doctors" className="bg-secondary/60 py-16 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-                Meet the team
-              </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-                Featured doctors
-              </h2>
-            </div>
-            <a
-              href="#doctors"
-              className="text-sm font-semibold text-primary hover:underline"
-            >
-              View all specialists →
-            </a>
-          </div>
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-            {doctors.map((d) => (
-              <article
-                key={d.name}
-                className="overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)] transition hover:-translate-y-1"
+          <Reveal>
+            <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end sm:gap-4">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+                  Meet the team
+                </p>
+                <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                  Featured doctors
+                </h2>
+              </div>
+              <a
+                href="#doctors"
+                className="text-sm font-semibold text-primary transition hover:underline"
               >
-                <div className="aspect-[4/5] overflow-hidden bg-primary-soft">
-                  <img
-                    src={d.photo}
-                    alt={`${d.name}, ${d.specialty}`}
-                    width={800}
-                    height={900}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-foreground">{d.name}</h3>
-                  <p className="text-sm text-primary">{d.specialty}</p>
-                  <div className="mt-5 flex items-center gap-3">
-                    <Link
-                      to="/book"
-                      className="inline-flex flex-1 items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:brightness-110"
-                    >
-                      Book Now
-                    </Link>
-                    <a
-                      href="#doctors"
-                      className="inline-flex items-center justify-center rounded-full border border-border px-4 py-2 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary"
-                    >
-                      Profile
-                    </a>
+                View all specialists →
+              </a>
+            </div>
+          </Reveal>
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:mt-12 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
+            {doctors.map((d, i) => (
+              <Reveal key={d.name} delay={i * 120} as="article">
+                <div className="group h-full overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-soft)]">
+                  <div className="aspect-[4/5] overflow-hidden bg-primary-soft">
+                    <img
+                      src={d.photo}
+                      alt={`${d.name}, ${d.specialty}`}
+                      width={800}
+                      height={900}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-lg font-semibold text-foreground">{d.name}</h3>
+                    <p className="text-sm text-primary">{d.specialty}</p>
+                    <div className="mt-5 flex items-center gap-3">
+                      <Link
+                        to="/book"
+                        className="inline-flex flex-1 items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:brightness-110 hover:shadow-[var(--shadow-soft)]"
+                      >
+                        Book Now
+                      </Link>
+                      <a
+                        href="#doctors"
+                        className="inline-flex items-center justify-center rounded-full border border-border px-4 py-2 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary"
+                      >
+                        Profile
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </article>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Why choose us */}
-      <section className="py-20 lg:py-28">
+      <section className="py-16 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal className="mx-auto max-w-2xl text-center">
             <p className="text-sm font-semibold uppercase tracking-widest text-primary">
               Why choose us
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
               Healthcare that just works
             </h2>
-          </div>
-          <div className="mt-14 grid grid-cols-1 gap-10 md:grid-cols-3">
-            {whyUs.map((w) => (
-              <div key={w.title} className="text-center">
-                <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-primary-soft text-primary">
-                  <w.icon className="h-7 w-7" />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold">{w.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{w.desc}</p>
-              </div>
+          </Reveal>
+          <div className="mt-12 grid grid-cols-1 gap-8 sm:mt-14 sm:gap-10 md:grid-cols-3">
+            {whyUs.map((w, i) => (
+              <Reveal key={w.title} delay={i * 120}>
+                <div className="group text-center">
+                  <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-primary-soft text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                    <w.icon className="h-7 w-7" />
+                  </span>
+                  <h3 className="mt-5 text-lg font-semibold">{w.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{w.desc}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section id="book" className="pb-24">
+      <section id="book" className="pb-16 sm:pb-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-3xl bg-primary p-10 text-primary-foreground shadow-[var(--shadow-soft)] sm:p-14">
-            <div className="grid gap-8 md:grid-cols-[1.5fr_1fr] md:items-center">
-              <div>
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                  Ready to feel your best?
-                </h2>
-                <p className="mt-3 max-w-xl text-primary-foreground/80">
-                  Book your appointment in under a minute and see a doctor as
-                  soon as today.
-                </p>
+          <Reveal>
+            <div className="relative overflow-hidden rounded-3xl bg-primary p-8 text-primary-foreground shadow-[var(--shadow-soft)] sm:p-14">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl animate-blob"
+              />
+              <div className="relative grid gap-6 md:grid-cols-[1.5fr_1fr] md:items-center md:gap-8">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+                    Ready to feel your best?
+                  </h2>
+                  <p className="mt-3 max-w-xl text-primary-foreground/80">
+                    Book your appointment in under a minute and see a doctor as
+                    soon as today.
+                  </p>
+                </div>
+                <Link
+                  to="/book"
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-primary transition hover:brightness-95 hover:shadow-lg md:w-auto md:justify-self-end"
+                >
+                  Book Appointment
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
               </div>
-              <Link
-                to="/book"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-primary transition hover:brightness-95 md:justify-self-end"
-              >
-                Book Appointment <ArrowRight className="h-4 w-4" />
-              </Link>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
+
 
       {/* Footer */}
       <footer id="contact" className="border-t border-border bg-secondary/50">
