@@ -343,14 +343,14 @@ function BookPage() {
                   type="submit"
                   disabled={!canConfirm}
                   className={cn(
-                    "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition",
+                    "group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300",
                     canConfirm
-                      ? "bg-primary text-primary-foreground shadow-[var(--shadow-soft)] hover:brightness-110"
+                      ? "bg-primary text-primary-foreground shadow-[var(--shadow-soft)] hover:-translate-y-0.5 hover:brightness-110 hover:shadow-lg active:translate-y-0"
                       : "cursor-not-allowed bg-muted text-muted-foreground",
                   )}
                 >
                   Confirm Appointment
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
                 <p className="mt-3 text-center text-xs text-muted-foreground">
                   You'll receive a confirmation email shortly.
