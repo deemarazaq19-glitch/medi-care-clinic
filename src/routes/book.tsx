@@ -237,13 +237,13 @@ function BookPage() {
                           disabled={s.booked}
                           onClick={() => setSlot(s.time)}
                           className={cn(
-                            "flex items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition",
+                            "flex items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition-all duration-200",
                             s.booked &&
                               "cursor-not-allowed border-border bg-muted text-muted-foreground line-through",
                             !s.booked && selected &&
-                              "border-primary bg-primary text-primary-foreground shadow-[var(--shadow-soft)]",
+                              "border-primary bg-primary text-primary-foreground shadow-[var(--shadow-soft)] scale-105",
                             !s.booked && !selected &&
-                              "border-border bg-card text-foreground hover:border-primary hover:text-primary",
+                              "border-border bg-card text-foreground hover:-translate-y-0.5 hover:border-primary hover:text-primary",
                           )}
                         >
                           <Clock className="h-3.5 w-3.5" />
