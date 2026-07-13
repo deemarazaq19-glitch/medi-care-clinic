@@ -78,14 +78,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "MediCare Clinic — Book Trusted Doctor Appointments Online" },
+      { name: "description", content: "MediCare Clinic offers compassionate, expert healthcare with easy online appointment booking. Meet our specialists in general medicine, cardiology, dental care, and pediatrics." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "MediCare Clinic — Book Trusted Doctor Appointments Online" },
+      { property: "og:description", content: "MediCare Clinic offers compassionate, expert healthcare with easy online appointment booking. Meet our specialists in general medicine, cardiology, dental care, and pediatrics." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "MediCare Clinic — Book Trusted Doctor Appointments Online" },
+      { name: "twitter:description", content: "MediCare Clinic offers compassionate, expert healthcare with easy online appointment booking. Meet our specialists in general medicine, cardiology, dental care, and pediatrics." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/7e797b57-9802-4517-bf34-3a3b19ea3c33" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/7e797b57-9802-4517-bf34-3a3b19ea3c33" },
     ],
     links: [
       {

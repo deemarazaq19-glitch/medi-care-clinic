@@ -34,11 +34,11 @@ export const Route = createFileRoute("/")({
         content:
           "MediCare Clinic offers compassionate, expert healthcare with easy online appointment booking. Meet our specialists in general medicine, cardiology, dental care, and pediatrics.",
       },
-      { property: "og:title", content: "MediCare Clinic — Your Health, Our Priority" },
+      { property: "og:title", content: "MediCare Clinic — Book Trusted Doctor Appointments Online" },
       {
         property: "og:description",
         content:
-          "Book appointments with trusted doctors at MediCare Clinic. Modern care, 24/7 support, and easy online scheduling.",
+          "MediCare Clinic offers compassionate, expert healthcare with easy online appointment booking. Meet our specialists in general medicine, cardiology, dental care, and pediatrics.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
