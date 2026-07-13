@@ -374,15 +374,17 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-          {step}
-        </span>
-        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+    <Reveal as="section" delay={step * 80}>
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[var(--shadow-soft)] sm:p-8">
+        <div className="mb-5 flex items-center gap-3">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground shadow-[var(--shadow-soft)]">
+            {step}
+          </span>
+          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+        </div>
+        {children}
       </div>
-      {children}
-    </section>
+    </Reveal>
   );
 }
 
