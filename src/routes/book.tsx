@@ -167,9 +167,9 @@ function BookPage() {
                       >
                         <span
                           className={cn(
-                            "grid h-10 w-10 place-items-center rounded-xl transition",
+                            "grid h-10 w-10 place-items-center rounded-xl transition-all duration-300",
                             selected
-                              ? "bg-primary text-primary-foreground"
+                              ? "bg-primary text-primary-foreground scale-110 rotate-6"
                               : "bg-primary-soft text-primary",
                           )}
                         >
