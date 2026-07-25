@@ -81,6 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "MediCare Clinic — Book Trusted Doctor Appointments Online" },
       { name: "description", content: "MediCare Clinic offers compassionate, expert healthcare with easy online appointment booking. Meet our specialists in general medicine, cardiology, dental care, and pediatrics." },
       { name: "author", content: "Lovable" },
+      { name: "google-site-verification", content: "iI-nR_Pr9BHllrowAaFmpPVhKdpvWxjFkHOuSLQrySo" },
       { property: "og:title", content: "MediCare Clinic — Book Trusted Doctor Appointments Online" },
       { property: "og:description", content: "MediCare Clinic offers compassionate, expert healthcare with easy online appointment booking. Meet our specialists in general medicine, cardiology, dental care, and pediatrics." },
       { property: "og:type", content: "website" },
