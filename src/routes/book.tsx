@@ -33,6 +33,26 @@ export const Route = createFileRoute("/book")({
         content:
           "Reserve your visit with a MediCare Clinic doctor online in under a minute.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://medi-care-clinic.lovable.app/book" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://medi-care-clinic.lovable.app/book" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: "Book an Appointment — MediCare Clinic",
+          url: "https://medi-care-clinic.lovable.app/book",
+          isPartOf: {
+            "@type": "MedicalClinic",
+            name: "MediCare Clinic",
+            url: "https://medi-care-clinic.lovable.app/",
+          },
+        }),
+      },
     ],
   }),
   component: BookPage,
